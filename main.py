@@ -1,7 +1,7 @@
 from tkinter import *
 
 window = Tk()
-window.geometry('700x270')
+window.geometry('650x270')
 window.title('Employee Database App')
 
 empId = Label(window, text='Employee ID', font=('Serif', 12))
@@ -36,5 +36,8 @@ deleteBtn.place(x=290, y=160)
 
 resetBtn = Button(window, text='Reset', font=('Serif', 12), bg='yellow')
 resetBtn.place(x=20, y=200)
+
+showData = Listbox(window)
+showData.place(x=450, y=30)
 
 window.mainloop()
