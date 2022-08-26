@@ -7,4 +7,7 @@ window.title('Employee Database App')
 empId = Label(window, text='Employee ID', font=('Serif', 12))
 empId.place(x=20, y=30)
 
+empName = Label(window, text='Employee Name', font=('Serif', 12))
+empName.place(x=20, y=50)
+
 window.mainloop()
