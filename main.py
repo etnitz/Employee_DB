@@ -19,4 +19,10 @@ enterId.place(x=230, y=30)
 enterName = Entry(window)
 enterName.place(x=230, y=60)
 
+enterDept = Entry(window)
+enterDept.place(x=230, y=90)
+
+insertBtn = Button(window, text='Insert', font=('Serif', 12), bg='white')
+insertBtn.place(x=20, y=160)
+
 window.mainloop()
