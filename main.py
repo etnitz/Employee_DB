@@ -25,4 +25,13 @@ enterDept.place(x=230, y=90)
 insertBtn = Button(window, text='Insert', font=('Serif', 12), bg='white')
 insertBtn.place(x=20, y=160)
 
+updateBtn = Button(window, text='Update', font=('Serif', 12), bg='white')
+updateBtn.place(x=100, y=160)
+
+getBtn = Button(window, text='Retrieve', font=('Serif', 12), bg='white')
+getBtn.place(x=190, y=160)
+
+deleteBtn = Button(window, text='Delete', font=('Serif', 12), bg='red')
+deleteBtn.place(x=290, y=160)
+
 window.mainloop()
