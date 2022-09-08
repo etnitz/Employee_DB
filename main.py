@@ -1,5 +1,29 @@
 from tkinter import *
+from tkinter import messagebox
 import mysql.connector
+
+def insertData():
+    
+    id = enterId.get()
+    name = enterName.get()
+    dept = enterDept.get()
+
+    if id == '' or name == '' or dept == '':
+        messagebox.showwarning('Cannot Insert','All fields required!')
+    else:
+        myDb = mysql.connector.connect(host='localhost', user='root', password='password', database='employee')
+        myCur = myDb.cursor()
+        insertQuery = """INSERT INTO staff(staff_id, name, department) VALUES(%s, %s, %s)"""
+        record = (id, name, dept)
+        myCur.execute(insertQuery, record)
+        myDb.commit()
+
+        enterId.delete(0, 'end')
+        enterName.delete(0, 'end')
+        enterDept.delete(0, 'end')
+
+        messagebox.showinfo('Enter Status','Data entered sucessfully!')
+        myDb.close()
 
 window = Tk()
 window.geometry('650x270')
@@ -26,16 +50,16 @@ enterDept.place(x=230, y=90)
 insertBtn = Button(window, text='Insert', font=('Serif', 12), bg='white', command=insertData)
 insertBtn.place(x=20, y=160)
 
-updateBtn = Button(window, text='Update', font=('Serif', 12), bg='white', command=updateData)
+updateBtn = Button(window, text='Update', font=('Serif', 12), bg='white')
 updateBtn.place(x=100, y=160)
 
-getBtn = Button(window, text='Retrieve', font=('Serif', 12), bg='white', command=getData)
+getBtn = Button(window, text='Retrieve', font=('Serif', 12), bg='white')
 getBtn.place(x=190, y=160)
 
-deleteBtn = Button(window, text='Delete', font=('Serif', 12), bg='red', command=deleteData)
+deleteBtn = Button(window, text='Delete', font=('Serif', 12), bg='red')
 deleteBtn.place(x=290, y=160)
 
-resetBtn = Button(window, text='Reset', font=('Serif', 12), bg='yellow', command=resetFields)
+resetBtn = Button(window, text='Reset', font=('Serif', 12), bg='yellow')
 resetBtn.place(x=20, y=200)
 
 showData = Listbox(window)
@@ -43,8 +67,3 @@ showData.place(x=450, y=30)
 
 window.mainloop()
 
-def insertData():
-    id = enterId.get()
-    name = enterName.get()
-    dept = enterDept.get()
-    
