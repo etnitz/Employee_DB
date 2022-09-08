@@ -25,6 +25,28 @@ def insertData():
         messagebox.showinfo('Enter Status','Data entered sucessfully!')
         myDb.close()
 
+def updateData():
+    id = enterId.get()
+    name = enterName.get()
+    dept = enterDept.get()
+
+    if id == '' or name == '' or dept == '':
+        messagebox.showwarning('Cannot update', 'All fields required!')
+    else:
+        myDB = mysql.connector.connect(host='localhost', user='root', password='password', database='employee')
+        myCur = myDB.cursor()
+        updateQuery = "UPDATE staff SET name = %s, department = %s WHERE staff_id = %s"
+        record = (name, dept, id)
+        myCur.execute(updateQuery, record)
+        myDB.commit()
+
+        enterId.delete(0, 'end')
+        enterName.delete(0, 'end')
+        enterDept.delete(0, 'end')
+
+        messagebox.showinfo('Update Status','Data updated sucessfully!')
+        myDB.close()
+
 window = Tk()
 window.geometry('650x270')
 window.title('Employee Database App')
@@ -50,7 +72,7 @@ enterDept.place(x=230, y=90)
 insertBtn = Button(window, text='Insert', font=('Serif', 12), bg='white', command=insertData)
 insertBtn.place(x=20, y=160)
 
-updateBtn = Button(window, text='Update', font=('Serif', 12), bg='white')
+updateBtn = Button(window, text='Update', font=('Serif', 12), bg='white', command=updateData)
 updateBtn.place(x=100, y=160)
 
 getBtn = Button(window, text='Retrieve', font=('Serif', 12), bg='white')
