@@ -3,6 +3,19 @@ from tkinter import *
 from tkinter import messagebox
 import mysql.connector
 
+def show():
+    myDB = mysql.connector.connect(host='localhost', user='root', password='password', database='employee')
+    myCur = myDB.cursor()
+    myCur.execute("SELECT * FROM staff")
+    rows = myCur.fetchall()
+    showData.delete(0, showData.size())
+
+    for row in rows:
+        addData = str(row[0]) + ' ' + row[1] + ' ' + row[2]
+        showData.insert(showData.size() + 1, addData)
+
+    myDB.close()
+
 def insertData():
     
     id = enterId.get()
@@ -22,6 +35,8 @@ def insertData():
         enterId.delete(0, 'end')
         enterName.delete(0, 'end')
         enterDept.delete(0, 'end')
+
+        show()
 
         messagebox.showinfo('Enter Status','Data entered sucessfully!')
         myDb.close()
@@ -45,6 +60,8 @@ def updateData():
         enterName.delete(0, 'end')
         enterDept.delete(0, 'end')
 
+        show()
+
         messagebox.showinfo('Update Status','Data updated sucessfully!')
         myDB.close()
 
@@ -56,7 +73,7 @@ def getData():
         myDB = mysql.connector.connect(host='localhost', user='root', password='password', database='employee')
         myCur = myDB.cursor()
         getQuery = "SELECT * FROM staff WHERE staff_id = %s"
-        record = (id)
+        record = [id]
         myCur.execute(getQuery, record)
         rows = myCur.fetchall()
         for row in rows:
@@ -71,28 +88,21 @@ def deleteData():
     else:
         myDB = mysql.connector.connect(host='localhost', user='root', password='password', database='employee')
         myCur = myDB.cursor()
-        myCur.execute("DELETE FROM staff WHERE staff_id = 'enterId.get()'")
+        deleteQuery = "DELETE FROM staff WHERE staff_id = %s"
+        record = [id]
+        myCur.execute(deleteQuery, record)
         myDB.commit()
 
         enterId.delete(0, 'end')
         enterName.delete(0, 'end')
         enterDept.delete(0, 'end')
 
+        show()
+
         messagebox.showinfo("Delete Status", 'Data deleted successfully')
         myDB.close()
 
-def show():
-    myDB = mysql.connector.connect(host='localhost', user='root', password='password', database='employee')
-    myCur = myDB.cursor()
-    myCur.execute("SELECT * FROM staff")
-    rows = myCur.fetchall()
-    showData.delete(0, showData.size())
 
-    for row in rows:
-        addData = str(row[0]) + ' ' + row[1] + ' ' + row[2]
-        showData.insert(showData.size() + 1, addData)
-
-    myDB.close()
 
 def resetFields():
     enterId.delete(0, 'end')
@@ -100,7 +110,7 @@ def resetFields():
     enterDept.delete(0, 'end')
 
 window = Tk()
-window.geometry('650x270')
+window.geometry('700x270')
 window.title('Employee Database App')
 
 empId = Label(window, text='Employee ID', font=('Serif', 12))
@@ -133,11 +143,13 @@ getBtn.place(x=190, y=160)
 deleteBtn = Button(window, text='Delete', font=('Serif', 12), bg='red', command=deleteData)
 deleteBtn.place(x=290, y=160)
 
-resetBtn = Button(window, text='Reset', font=('Serif', 12), bg='yellow')
+resetBtn = Button(window, text='Reset', font=('Serif', 12), bg='yellow', command=resetFields)
 resetBtn.place(x=20, y=200)
 
-showData = Listbox(window)
+showData = Listbox(window, width= 30)
 showData.place(x=450, y=30)
+
+show()
 
 window.mainloop()
 
