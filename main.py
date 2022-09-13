@@ -81,6 +81,24 @@ def deleteData():
         messagebox.showinfo("Delete Status", 'Data deleted successfully')
         myDB.close()
 
+def show():
+    myDB = mysql.connector.connect(host='localhost', user='root', password='password', database='employee')
+    myCur = myDB.cursor()
+    myCur.execute("SELECT * FROM staff")
+    rows = myCur.fetchall()
+    showData.delete(0, showData.size())
+
+    for row in rows:
+        addData = str(row[0]) + ' ' + row[1] + ' ' + row[2]
+        showData.insert(showData.size() + 1, addData)
+
+    myDB.close()
+
+def resetFields():
+    enterId.delete(0, 'end')
+    enterName.delete(0, 'end')
+    enterDept.delete(0, 'end')
+
 window = Tk()
 window.geometry('650x270')
 window.title('Employee Database App')
